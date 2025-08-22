@@ -1,4 +1,3 @@
-local guiParent = (gethui and gethui()) or game.CoreGui
 
 -- Criar ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
@@ -62,6 +61,13 @@ local function setSpeed(value)
         humanoid.WalkSpeed = value
         SpeedLabel.Text = "Velocidade atual: " .. value
     end
+end
+
+local player = game.Players.LocalPlayer
+
+if player.Character then
+     local Humanoid = player.character:WaitForChild("Humanoid")
+    Humanoid.WalkSpeed = SpeedBox.Text
 end
 
 -- Quando digitar valor e apertar Enter
