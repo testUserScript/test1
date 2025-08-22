@@ -18,7 +18,7 @@ Frame.Parent = ScreenGui
 -- Título
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, 0, 0, 30)
-Title.Text = "Speed GUI"
+Title.Text = "Speed GUI gostoso"
 Title.TextColor3 = Color3.fromRGB(255,255,255)
 Title.BackgroundColor3 = Color3.fromRGB(20,20,20)
 Title.Parent = Frame
