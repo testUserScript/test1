@@ -65,9 +65,12 @@ end
 
 local player = game.Players.LocalPlayer
 
-if player.Character then
-     local Humanoid = player.character:WaitForChild("Humanoid")
+local function applySpeed(char)
+    local Humanoid = char:WaitForChild("Humanoid")
     Humanoid.WalkSpeed = SpeedBox.Text
+end
+if player.Character then
+     applySpeed(player.Character)
 end
 
 -- Quando digitar valor e apertar Enter
