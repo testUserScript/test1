@@ -67,7 +67,8 @@ local player = game.Players.LocalPlayer
 
 local function applySpeed(char)
     local Humanoid = char:WaitForChild("Humanoid")
-    Humanoid.WalkSpeed = tonumber(SpeedBox.Text)
+    local speed = tonumber(SpeedBox)
+    Humanoid.WalkSpeed = speed
 end
 if player.Character then
      applySpeed(player.Character)
