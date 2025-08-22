@@ -73,6 +73,8 @@ if player.Character then
      applySpeed(player.Character)
 end
 
+player.CharacterAdded:Connect(applySpeed)
+
 -- Quando digitar valor e apertar Enter
 SpeedBox.FocusLost:Connect(function(enterPressed)
     if enterPressed then
