@@ -1,16 +1,18 @@
+-- Parent seguro pro Delta / Synapse
+local guiParent = (gethui and gethui()) or game.CoreGui
 
 -- Criar ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "SpeedChanger"
 ScreenGui.Parent = guiParent
 
--- Criar Frame principal
+-- Frame principal
 local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 250, 0, 120)
+Frame.Size = UDim2.new(0, 250, 0, 130)
 Frame.Position = UDim2.new(0.4, 0, 0.3, 0)
 Frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 Frame.Active = true
-Frame.Draggable = true -- arrastável
+Frame.Draggable = true
 Frame.Parent = ScreenGui
 
 -- Título
@@ -21,7 +23,7 @@ Title.TextColor3 = Color3.fromRGB(255,255,255)
 Title.BackgroundColor3 = Color3.fromRGB(20,20,20)
 Title.Parent = Frame
 
--- Botão X (fechar)
+-- Botão fechar
 local CloseBtn = Instance.new("TextButton")
 CloseBtn.Size = UDim2.new(0, 30, 0, 30)
 CloseBtn.Position = UDim2.new(1, -30, 0, 0)
@@ -33,10 +35,10 @@ CloseBtn.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
 end)
 
--- Texto com velocidade atual
+-- Label de velocidade
 local SpeedLabel = Instance.new("TextLabel")
 SpeedLabel.Size = UDim2.new(1, 0, 0, 30)
-SpeedLabel.Position = UDim2.new(0,0,0.3,0)
+SpeedLabel.Position = UDim2.new(0, 0, 0.3, 0)
 SpeedLabel.Text = "Velocidade atual: 16"
 SpeedLabel.TextColor3 = Color3.fromRGB(255,255,255)
 SpeedLabel.BackgroundTransparency = 1
@@ -52,28 +54,22 @@ SpeedBox.TextColor3 = Color3.fromRGB(0,0,0)
 SpeedBox.BackgroundColor3 = Color3.fromRGB(200,200,200)
 SpeedBox.Parent = Frame
 
--- Função para mudar WalkSpeed
-local function setSpeed(value)
-    local player = game.Players.LocalPlayer
-    local char = player.Character or player.CharacterAdded:Wait()
-    local humanoid = char:FindFirstChildOfClass("Humanoid")
-    if humanoid then
-        humanoid.WalkSpeed = value
-        SpeedLabel.Text = "Velocidade atual: " .. value
-    end
-end
-
+-- Função para aplicar WalkSpeed
 local player = game.Players.LocalPlayer
 
 local function applySpeed(char)
-    local Humanoid = char:WaitForChild("Humanoid")
-    local speed = tonumber(SpeedBox)
-    Humanoid.WalkSpeed = speed
-end
-if player.Character then
-     applySpeed(player.Character)
+    local humanoid = char:WaitForChild("Humanoid")
+    local speed = tonumber(SpeedBox.Text) or 16
+    humanoid.WalkSpeed = speed
+    SpeedLabel.Text = "Velocidade atual: " .. speed
 end
 
+-- Aplica no personagem atual se já existir
+if player.Character then
+    applySpeed(player.Character)
+end
+
+-- Aplica sempre que respawnar
 player.CharacterAdded:Connect(applySpeed)
 
 -- Quando digitar valor e apertar Enter
@@ -81,7 +77,9 @@ SpeedBox.FocusLost:Connect(function(enterPressed)
     if enterPressed then
         local newSpeed = tonumber(SpeedBox.Text)
         if newSpeed then
-            setSpeed(newSpeed)
+            if player.Character then
+                applySpeed(player.Character)
+            end
         else
             SpeedLabel.Text = "Digite um número válido!"
         end
